@@ -22,15 +22,6 @@ local DEFAULT_CONFIG = {
         min_matches = 1,
         ---@field highlight_match table highlights the match
         highlight_match = { fg = "#c0caf5", bg = "#545c7e" },
-        ---@field lh table this lets you move though the matches using `l` and `h` keys.
-        lh = {
-            enable = true,
-            ---@field lh_curosr_hl table highlight the cursor for the `lh` movement
-            cursor_hl = { fg = "#545c7e", bg = "#ff9e64" },
-            ---@field go_to_first_match boolean leave the current cursor position and
-            --- go to the first match.
-            go_to_first_match = true,
-        },
         ---@field leap table pick match, with virtual text symbol for that match.
         leap = {
             enable = false,

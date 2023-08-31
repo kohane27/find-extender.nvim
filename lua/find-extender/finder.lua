@@ -30,24 +30,8 @@ function M.finder(config)
     ---@param args table
     local function pick_match(args)
         local picked_match = nil
-        if not config.movements.leap.enable then
-            args.go_to_first_match = config.movements.lh.go_to_first_match
-
-            -- hide cursor
-            utils.wait(function()
-                vim.cmd.hi("Cursor", "blend=100")
-                vim.opt.guicursor:append({ "a:Cursor/lCursor" })
-            end)
-
-            picked_match = movements.lh(args)
-
-            -- show cursor
-            vim.cmd.hi("Cursor", "blend=0")
-            vim.opt.guicursor:remove({ "a:Cursor/lCursor" })
-        else
-            args.symbols = config.movements.leap.symbols
-            picked_match = movements.leap(args)
-        end
+        args.symbols = config.movements.leap.symbols
+        picked_match = movements.leap(args)
         return picked_match
     end
 
@@ -436,7 +420,6 @@ function M.finder(config)
     --                      Highlight virtual text                      --
     ----------------------------------------------------------------------
     api.nvim_set_hl(0, "FEVirtualText", config.movements.highlight_match)
-    api.nvim_set_hl(0, "FECurrentMatchCursor", config.movements.lh.cursor_hl)
     api.nvim_set_hl(0, "FEHighlightOnYank", config.highlight_on_yank.hl)
 
     -- add the maps on setup function execution
