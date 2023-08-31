@@ -1,4 +1,8 @@
-This Plugin extend's the capability of **find**, **till** and **text manipulation** commands.
+## TODO
+
+- [ ] add bi-directional searching, i.e., pressing `f` or `t` to search the target in both directions, i.e., left and right at the same time. Ref: [Example: bidirectional and all-windows search](https://github.com/ggandor/leap.nvim#calling-leap-with-custom-arguments)
+
+This plugin extends the capability of **find**, **till** and **text manipulation** commands.
 
 ## ✨ Features
 
@@ -12,10 +16,6 @@ This Plugin extend's the capability of **find**, **till** and **text manipulatio
   supported:
   - **leap**: this movement is inspired from [leap.nvim](https://github.com/ggandor/leap.nvim),
     this movement lets you pick the match by picking virtual text symbol assigned to it.
-  - **lh**: this movement will allow you to move through matches using `h` and `l` keys.
-    This movement acts as a mode and provides some useful features:
-    - count is supported and can be used to move faster between multiple matches.
-    - adds support for `$`, `0` and `^` motions like normal mode but this moves you through matches.
 - Lets you ignore certain characters. Using this feature you can use default `1`
   character search for certain characters like punctuations(`{`,`(`,`,`, etc).
 
@@ -73,10 +73,6 @@ TODO: Add demos
 
 <img alt="leap movement" src="https://github.com/TheSafdarAwan/assets/blob/main/find-extender.nvim/movements-leap.gif">
 
-#### lh
-
-<img alt="leap movement" src="https://github.com/TheSafdarAwan/assets/blob/main/find-extender.nvim/movements-lh.gif">
-
 ## 📦 Installation
 
 Install with your preferred package manager:
@@ -127,7 +123,6 @@ require("find-extender").setup({
   ignore_case = false,
   movements = {
     ---@field min_matches number minimum number of matches required after which
-    --- you can use the leap or lh.
     min_matches = 1,
     ---@field highlight_match table highlights the match
     highlight_match = { fg = "#c0caf5", bg = "#545c7e" },
@@ -222,33 +217,13 @@ Movements allow you to move through matches.
 This plugin allows two types of movements.
 
 1. Leap like movement, by picking match like [leap.nvim](https://github.com/ggandor/leap.nvim).
-2. lh this movement allows you to move through matches using the `l` and `h` keys
-   You can pick your desired match by pressing keys defined in the
-   `actions_keys.accept` table on that match. This acts like a mode you can do
-   motions like `$`, `0` and `^` like in normal mode but these motions will only
-   move you through the matches.
-   Some useful features provided in this movement are:
-   - count is accepted and can be used to move faster between multiple matches.
-   - adds support for `$`, `0` and `^` motions like normal mode but this moves you through matches.
 
 ```lua
 movements = {
   ---@field min_matches number minimum number of matches required after which
-  --- you can use the leap or lh.
   min_matches = 1,
   ---@field highlight_match table highlights the match
   highlight_match = { fg = "#c0caf5", bg = "#545c7e" },
-  ---@field lh table this lets you move though the matches using `l` and `h` keys.
-  lh = {
-      enable = false,
-      ---@field lh_curosr_hl table highlight the cursor for the `lh` movement
-      cursor_hl = { fg = "#545c7e", bg = "#ff9e64" },
-      ---@field go_to_first_match boolean leave the current cursor position and
-      --- go to the first match. As soon as the input is give and then highlight
-      --- the matches. If you don't want cursor to leave the current position
-      --- then set this to false
-      go_to_first_match = true,
-  },
   ---@field leap table pick match, with virtual text symbol for that match.
   leap = {
     enable = true,
@@ -269,15 +244,6 @@ This table accepts all the options you can specify to the `nvim_set_hl`.
 ```lua
 ---@field highlight_match table highlights the match
 highlight_match = { fg = "#c0caf5", bg = "#545c7e" },
-```
-
-The `lh` movement cursor can also be customized by changing the `lh.curosr_hl` key.
-
-<!-- TODO: create a different section for movements options -->
-
-```lua
----@field lh_curosr_hl table highlight the cursor for the `lh` movement
-lh.curosr_hl = { fg = "#545c7e", bg = "#c0caf5" },
 ```
 
 ### `no_wait`
