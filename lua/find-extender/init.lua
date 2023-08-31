@@ -1,7 +1,6 @@
 --- setup module.
 local M = {}
 
-local deprecate = require("find-extender.deprecate")
 local utils = require("find-extender.utils")
 
 --- default config
@@ -99,7 +98,6 @@ local DEFAULT_CONFIG = {
 function M.setup(user_config)
     ---@table config merged config from user and default
     local config = DEFAULT_CONFIG
-    local config_is_derecated = deprecate.old_syntax(user_config)
 
     -- override no_wait
     if user_config and user_config.no_wait then
