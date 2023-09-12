@@ -59,19 +59,19 @@ function M.finder(config)
             end)
         else
             matches = utils.map_string_pattern_positions(str, args.pattern)
-            print("here1" .. vim.inspect(matches))
+            -- print("here1 " .. vim.inspect(matches))
         end
         if not matches then
-            print("here2" .. vim.inspect(matches))
+            -- print("here2 " .. vim.inspect(matches))
             return
         end
         -- print(vim.inspect(matches))
         -- in case of F/T commands we need to reverse the tbl of the matches because now we have
         -- to start searching from the end of the string rather then from the start
-        if args.match_direction.right then
-            matches = utils.reverse_tbl(matches)
-            print("here3" .. vim.inspect(matches))
-        end
+        -- if args.match_direction.right then
+        --     matches = utils.reverse_tbl(matches)
+        --     print("here3" .. vim.inspect(matches))
+        -- end
 
         local cursor_pos = fn.getpos(".")[3]
         -- trim the matches table and only leave matches that are in the same
@@ -82,13 +82,13 @@ function M.finder(config)
                 table.insert(tbl, match)
             end
         end
-        print("here4" .. vim.inspect(matches))
+        -- print("here4 " .. vim.inspect(matches))
         for _, match in ipairs(matches) do
             if match >= cursor_pos then
                 table.insert(tbl, match)
             end
         end
-        print("here5" .. vim.inspect(matches))
+        -- print("here5 " .. vim.inspect(matches))
         matches = tbl
 
         -- if count then
