@@ -18,27 +18,14 @@ local DEFAULT_CONFIG = {
     ignore_case = false,
     movements = {
         ---@field min_matches number minimum number of matches required after which
-        --- you can use the leap or lh.
         min_matches = 1,
         ---@field highlight_match table highlights the match
         highlight_match = { fg = "#c0caf5", bg = "#545c7e" },
         ---@field leap table pick match, with virtual text symbol for that match.
         leap = {
-            enable = false,
+            enable = true,
             ---@field symbols string virtual text symbols, that represent matches
             symbols = "abcdefgh",
-        },
-        ---@field search table this movement behaves likes search(/ or ?) features of vim
-        --- this movement behaves like `lh` but i doesn't respects the `input_length`
-        --- and you can add as many characters as you want until you have only one
-        --- match left in the current line Or you can press the `<CR> or <ESC>` to
-        --- activate the `lh` movement on the current matches
-        --TODO: comming soon...
-        search = {
-            ---@field real_time_highlight boolean highlight the matches in real time as
-            --you enter the input it will start highlighting the matches
-            real_time_highlight = true,
-            enable = false,
         },
     },
     ---@field no_wait table don't wait for second char if one of these is the first
@@ -59,18 +46,18 @@ local DEFAULT_CONFIG = {
             ---@field modes string modes in which the finding keys should be added.
             modes = "nv",
             ---@field till table table of till keys backward and forward
-            till = { "T", "t" },
+            till = { "t", "t" },
             ---@field find table table of find keys backward and forward
-            find = { "F", "f" },
+            find = { "f", "f" },
         },
         ---@field text_manipulation table information about text manipulation keys including yank/delete/change.
         text_manipulation = {
             ---@field yank table keys related to finding yanking area of text in a line.
-            yank = { "f", "F", "t", "T" },
+            yank = { "f", "f", "t", "t" },
             ---@field delete table keys related to finding deleting area of text in a line.
-            delete = { "f", "F", "t", "T" },
+            delete = { "f", "f", "t", "t" },
             ---@field change table keys related to finding changing area of text in a line.
-            change = { "f", "F", "t", "T" },
+            change = { "f", "f", "t", "t" },
         },
     },
     ---@field highlight_on_yank table highlight the yanked area
@@ -95,17 +82,8 @@ function M.setup(user_config)
         config.no_wait = user_config.no_wait
     end
 
-    if not config_is_derecated then
-        config = vim.tbl_deep_extend("force", config, user_config or {})
-        config.keymaps = vim.tbl_extend("force", DEFAULT_CONFIG.keymaps, user_config and user_config.keymaps or {})
-    end
-
-    if user_config and user_config.movments then
-        config.movements = vim.tbl_deep_extend("force", config.movements, user_config.movments)
-        vim.defer_fn(function()
-            vim.notify("find-extender: please use `movements` instead of `movments` which has wrong spelling")
-        end, 3000)
-    end
+    config = vim.tbl_deep_extend("force", config, user_config or {})
+    config.keymaps = vim.tbl_extend("force", DEFAULT_CONFIG.keymaps, user_config and user_config.keymaps or {})
 
     require("find-extender.finder").finder(config)
 end
