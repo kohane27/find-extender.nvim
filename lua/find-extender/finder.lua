@@ -59,30 +59,42 @@ function M.finder(config)
             end)
         else
             matches = utils.map_string_pattern_positions(str, args.pattern)
+            print("here1" .. vim.inspect(matches))
         end
         if not matches then
+            print("here2" .. vim.inspect(matches))
             return
+        end
+        -- print(vim.inspect(matches))
+        -- in case of F/T commands we need to reverse the tbl of the matches because now we have
+        -- to start searching from the end of the string rather then from the start
+        if args.match_direction.right then
+            matches = utils.reverse_tbl(matches)
+            print("here3" .. vim.inspect(matches))
         end
 
         local cursor_pos = fn.getpos(".")[3]
-        -- trim the matches table and combine matches from both directions
+        -- trim the matches table and only leave matches that are in the same
+        -- direction with respect to the key.
         local tbl = {}
         for _, match in ipairs(matches) do
             if match <= cursor_pos then
                 table.insert(tbl, match)
             end
         end
+        print("here4" .. vim.inspect(matches))
         for _, match in ipairs(matches) do
             if match >= cursor_pos then
                 table.insert(tbl, match)
             end
         end
+        print("here5" .. vim.inspect(matches))
         matches = tbl
 
-        if count then
-            -- trim tables if count was available -> to skip matches, we don't need
-            matches = utils.trim_table({ index = count - 1, tbl = matches })
-        end
+        -- if count then
+        --     -- trim tables if count was available -> to skip matches, we don't need
+        --     matches = utils.trim_table({ index = count - 1, tbl = matches })
+        -- end
         local match = nil
 
         -- use the movements if matches exceed -> config.movements.min_matches
@@ -101,21 +113,17 @@ function M.finder(config)
             match = picked_match
         else
             -- get the appropriate match
-            if args.match_direction.left then
-                for _, match_position in ipairs(matches) do
-                    if cursor_pos < match_position then
-                        match = match_position
-                        break
-                    end
+            for _, match_position in ipairs(matches) do
+                if cursor_pos < match_position then
+                    match = match_position
+                    break
                 end
             end
 
-            if args.match_direction.right then
-                for _, match_position in ipairs(matches) do
-                    if cursor_pos > match_position then
-                        match = match_position
-                        break
-                    end
+            for _, match_position in ipairs(matches) do
+                if cursor_pos > match_position then
+                    match = match_position
+                    break
                 end
             end
         end
