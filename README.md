@@ -1,5 +1,3 @@
-## TODO
-
 This fork allows for bi-directional search (e.g., allowing pressing `f` or `t` to search the target in both directions, i.e., left and right at the same time. Ref: [Example: bidirectional and all-windows search](https://github.com/ggandor/leap.nvim#calling-leap-with-custom-arguments))
 
 This plugin extends the capability of **find**, **till** and **text manipulation** commands.
