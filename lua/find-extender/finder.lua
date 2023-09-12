@@ -63,33 +63,21 @@ function M.finder(config)
         if not matches then
             return
         end
-        -- in case of F/T commands we need to reverse the tbl of the matches because now we have
-        -- to start searching from the end of the string rather then from the start
-        if args.match_direction.right then
-            matches = utils.reverse_tbl(matches)
-        end
 
         local cursor_pos = fn.getpos(".")[3]
-        -- trim the matches table and only leave matches that are in the same
-        -- direction with respect to the key.
-        if args.match_direction.right then
-            local tbl = {}
-            for _, match in ipairs(matches) do
-                if match <= cursor_pos then
-                    table.insert(tbl, match)
-                end
+        -- trim the matches table and combine matches from both directions
+        local tbl = {}
+        for _, match in ipairs(matches) do
+            if match <= cursor_pos then
+                table.insert(tbl, match)
             end
-            matches = tbl
         end
-        if args.match_direction.left then
-            local tbl = {}
-            for _, match in ipairs(matches) do
-                if match >= cursor_pos then
-                    table.insert(tbl, match)
-                end
+        for _, match in ipairs(matches) do
+            if match >= cursor_pos then
+                table.insert(tbl, match)
             end
-            matches = tbl
         end
+        matches = tbl
 
         if count then
             -- trim tables if count was available -> to skip matches, we don't need
